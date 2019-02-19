@@ -5,9 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WallpaperChangeApplication"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBlock Text="Change Desktop Background"/>
-        <Button Content="Click Here" Click="Button_Click"/>
+        Title="MainWindow" MaxHeight="700" MaxWidth="700" Background="AliceBlue">
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" >
+        <TextBlock Text="Personalize your Desktop background" HorizontalAlignment="Center" FontSize="16" Margin="10" FontWeight="SemiBold"/>
+        <Button Content="Default Settings" Click="DefaultSettings" Width="100" Height="30"/>
+        <TextBlock Text="or" HorizontalAlignment="Center"/>
+        <TextBlock Text="Select your image" HorizontalAlignment="Center" FontWeight="Bold"/>
+        <StackPanel Orientation="Horizontal" Background="LightBlue" Height="35" Margin="15">
+            <TextBlock Margin="15,0,0,0"  Text="Current File:" VerticalAlignment="Center" FontWeight="SemiBold"/>
+            <TextBlock Margin="5,0,0,0" Name="FileName" Width="300" VerticalAlignment="Center" />
+            <Button Content="Browse" Margin="5,0,5,0" Height="20" Name="BrowseButton" Width="60" Click="BrowseButton_Click"/>
+        </StackPanel>
+        <StackPanel>
+            <Image Name="ImageViewer" Height="400" Width="400" />
+        </StackPanel>
+        <Button Content="Set as background" Width="140" Margin="10" Name="ApplyUserImage" Visibility="Collapsed" Click="ApplyUserImage_Click"/>
     </StackPanel>
 </Window>

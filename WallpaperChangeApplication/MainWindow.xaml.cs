@@ -1,19 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.Win32;
+using System;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using WallpaperChangeApplication.Properties;
 
 namespace WallpaperChangeApplication
 {
@@ -26,7 +15,6 @@ namespace WallpaperChangeApplication
         internal sealed class Win32
         {
             [DllImport("user32.dll", CharSet = CharSet.Auto)]
-
             internal static extern int SystemParametersInfo(
                 int uAction,
                 int uParam,
@@ -34,47 +22,62 @@ namespace WallpaperChangeApplication
                 int fuWinIni);
         }
 
-        int iBackground = 0;
+        const int SET_DESKTOP_BACKGROUND = 20;
+        const int UPDATE_INI_FILE = 1;
+        const int SEND_WINDOWS_INI_CHANGE = 2;
+        public string selectedImagePath { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void SetDesktopBackground(string imagePath)
         {
-            iBackground++;
-            if (iBackground > 3) iBackground = 1;
-
-            string imagePath = "C:\\Users\\udayt\\Desktop\\WallpaperImages\\" + iBackground + ".jpg";
-            Set_Desktop_Background(imagePath);
-
-        }
-
-        private void Set_Desktop_Background(string imagePath)
-        {
-            const int SET_DESKTOP_BACKGROUND = 20;
-            const int UPDATE_INI_FILE = 1;
-            const int SEND_WINDOWS_INI_CHANGE = 2;
-
-            string theDirectory = AppDomain.CurrentDomain.BaseDirectory;
             Win32.SystemParametersInfo(SET_DESKTOP_BACKGROUND, 0, imagePath, UPDATE_INI_FILE | SEND_WINDOWS_INI_CHANGE);
         }
 
-        private string GetImage()
+        private void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Image files (*.jpg)|*.jpg|All Files (*.*)|*.*",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+            };
+            if (openFileDialog.ShowDialog() == true)
+            {
+                selectedImagePath = openFileDialog.FileName;
+                FileName.Text = selectedImagePath;
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri(selectedImagePath);
+                bitmap.EndInit();
+                ImageViewer.Source = bitmap;
+            }
+            ApplyUserImage.Visibility = ImageViewer.Source != null ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void ApplyUserImage_Click(object sender, RoutedEventArgs e)
+        {
+            SetDesktopBackground(selectedImagePath);
+        }
+
+        private void DefaultSettings(object sender, RoutedEventArgs e)
+        {
+            string imgPath;
             if (DateTime.Now.Hour < 12)
             {
-                return "..\\Images\\1.jpg";
+                imgPath = "Images\\1.jpg";
             }
             else if (DateTime.Now.Hour < 17)
             {
-                return @"Images\2.jpg";
+                imgPath = "Images\\2.png";
             }
             else
             {
-                return @"Images\3.jpg";
+                imgPath = "Images\\3.jpg";
             }
+            SetDesktopBackground(AppDomain.CurrentDomain.BaseDirectory + imgPath);
         }
     }
 }
