@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WallpaperChangeApplication", "WallpaperChangeApplication\WallpaperChangeApplication.csproj", "{9207B4FA-22B2-4FFD-9837-5673D089C513}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WallpaperChangeApplication", "WallpaperChanger\WallpaperChangeApplication.csproj", "{9207B4FA-22B2-4FFD-9837-5673D089C513}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

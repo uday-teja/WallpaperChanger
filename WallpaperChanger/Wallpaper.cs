@@ -47,7 +47,7 @@ namespace WallpaperChangeApplication
         public async Task Execute(IJobExecutionContext context)
         {
             await Task.Run(() => SetBackground());
-            ITrigger trigger = TriggerBuilder.Create()
+            var trigger = TriggerBuilder.Create()
                 .WithIdentity(context.Trigger.Key.Name)
                 .StartNow()
                 .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(this.TriggerHour, 00))
